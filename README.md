@@ -46,7 +46,7 @@ MAKE SURE YOU MAKE THOROUGH UNIT TESTS. Consider asking the AI to teach you abou
 HINT: `getRGB` returns a 32-bit AARRGGBB color (includes alpha channel). However, ColorDistanceFinder expects the colors to come in RRGGBB format (no alpha channel (most significant 8 bits set to 0)). What can you do to make this conversion happen?
 
 ## Wave 5: Implement BinarizingImageGroupFinder
-This implementation will be relatively short! It will mostly be calling methods in ImageBinarizer and BinaryGroupFinder.
+This implementation will be relatively short! It will mostly be calling methods in ImageBinarizer and BinaryGroupFinder.      
 
 MAKE SURE YOU MAKE THOROUGH UNIT TESTS. Consider asking the AI to teach you about mocks and fakes in unit testing and how they may be helpful here. I recommend NOT using any external library other than JUnit. If the AI wants to use another external library, consider asking it not to and to make stubs instead.
           
@@ -63,4 +63,6 @@ Once you have confirmed it is working, clean up your code, make sure it's commit
 
 ## Optional Wave 7: Enhancements?
 If you want to, you can make a new branch to start experimenting. See if you can come up with a better color distance method (hint: look up perceptual color spaces). See if you can make your code more efficient or mor suited to spotting salamanders! Experiment with other test files. PLEASE MAKE SURE THIS IS IN A SEPARATE BRANCH FROM YOUR SUBMISSION.
+
+
 
