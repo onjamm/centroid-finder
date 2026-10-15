@@ -49,7 +49,7 @@ HINT: `getRGB` returns a 32-bit AARRGGBB color (includes alpha channel). However
 This implementation will be relatively short! It will mostly be calling methods in ImageBinarizer and BinaryGroupFinder.
 
 MAKE SURE YOU MAKE THOROUGH UNIT TESTS. Consider asking the AI to teach you about mocks and fakes in unit testing and how they may be helpful here. I recommend NOT using any external library other than JUnit. If the AI wants to use another external library, consider asking it not to and to make stubs instead.
-
+          
 ## Wave 6: Validation
 To validate your code is working, make sure you're in the centroid-finder directory and run the below command:
 
