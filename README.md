@@ -18,6 +18,7 @@ Read through ImageSummaryApp in detail with your partner. Understand what each p
 
 As you read through the files, take notes in notes.md to help you and your partner understand. Make frequent commits to your notes.
 
+
 ## Wave 2: Implement DfsBinaryGroupFinder
 This class takes in a binary image array and finds the connected groups. It will look very similar in many ways to the explorer problem you did for DFS! You'll need to understand the Group record to do this well.
 
