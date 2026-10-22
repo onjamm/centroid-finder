@@ -71,8 +71,12 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
             throw new IllegalArgumentException("Image rows cannot be empty");
         }
         //another check to make sure it is a rectangular image
+    }
+    //private method for dfs search to return the total number of pixels in one group
+    private static int findGroupDfs(int[][] image, boolean[][] visited, int rows, int columns){
         
-        
-    
+
+
+
     }
 }
