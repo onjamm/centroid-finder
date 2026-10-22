@@ -30,7 +30,22 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
     */
     @Override
     public List<Group> findConnectedGroups(int[][] image) {
-        return null;
+        //get image's boundaries
+        int rows = image.length;
+        int column = image[0].length;
+        //track visited positions with boolean array
+
+        //create a new List<Group> groups to track all the groups
+
+        //first we need to validate image 
+
+        //after validating the image we then need to find groups within the image
+
+        //when finding groups we find the average to find the centroid 
+
+        //then we need to sort the groups
+
+
     }
     
 }
