@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class DfsBinaryGroupFinder implements BinaryGroupFinder {
@@ -42,7 +43,7 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
         
         //and return the array list groups in a  sorted order 
 
-        //first we need to validate image 
+        //first helper method we need to validate image 
 
         //after validating the image we then need to find groups within the image
 
@@ -52,5 +53,26 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
 
 
     }
+    // validate image helper method using 1's and 0's as values to 
+    // is valid if the 2d array is containing only 1's and 0's 
+    // if null we throw nullPointerException error 
+    // if not valid 2d array then we throw an Invalid argumaent exception error
+    public static void isValidImage(int[][] image){
+        int column = image[0].length;
+
+        if(image == null ) {
+            throw new NullPointerException("Image is null");
+        }
+        //check if each row and column is null 
+        for(int[] row : image) {
+            if(row == null) throw new NullPointerException("Image rows are null");
+        }
+        if(image.length == 0){
+            throw new IllegalArgumentException("Image rows cannot be empty");
+        }
+        //another check to make sure it is a rectangular image
+        
+        
     
+    }
 }
