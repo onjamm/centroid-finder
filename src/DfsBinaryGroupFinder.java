@@ -93,12 +93,42 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
         int rows = image.length;
         int columns = image[0].length;
 
+        int size = 0;
+        int sumX = 0;
+        int sumY = 0;
+
+        int [][] directions = {
+            {-1, 0}, //Up
+            {1, 0}, //Down
+            {0, -1}, //Left
+            {0, 1} //Right
+        };
+        
+        if (startRow < 0 || startRow >= image.length || startCol < 0 || startCol >= image[0].length){
+            return new Group();
+        }
+
+        if (image[startRow][startCol] == 0 || visited[startRow][startCol] == true){
+            return new Group();
+        }
+
+        visited[startRow][startCol] = true;
+
         Deque<Coordinate> queue = new ArrayDeque<>();
 
         queue.addLast(new Coordinate(startCol, startRow));
 
-        visited[startRow][startCol] = true;
-    
+        //add target cases
+
+        for (int[] dir : directions) {
+
+        }
+
+        
+
+
+
+        
 
 
 
