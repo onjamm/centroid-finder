@@ -65,21 +65,27 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
     // if null we throw nullPointerException error 
     // if not valid 2d array then we throw an Invalid argumaent exception error
     public static void isValidImage(int[][] image){
-        int col = image[0].length;
+        int columns = image[0].length;
 
         if(image == null ) {
             throw new NullPointerException("Image is null");
         }
-        //check if each row and column is null 
+        //check if each row and column is null
         for(int[] row : image) {
             if(row == null) throw new NullPointerException("Image rows are null");
+
+            if(row.length != columns) {
+                throw new IllegalArgumentException("Image must be rectangular");
+            }
+            
+            for (int pixel : row) {
+                if (pixel != 0 && pixel != 1) {
+                    throw new IllegalArgumentException("Image must contain only 0s and 1s");
+                }
+            }
         }
         if(image.length == 0){
             throw new IllegalArgumentException("Image cannot be empty");
-        }
-        //another check to make sure it is a rectangular image
-        if(col == 0){
-            throw new IllegalArgumentException("image rows can't be empty");
         }
     }
     //private method for dfs search to return the total number of pixels in one group
