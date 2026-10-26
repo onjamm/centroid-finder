@@ -58,7 +58,7 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
 
         //then we need to sort the groups 
 
-
+        return groups;
     }
     // first helper method we need to validate image 
     // is valid if the 2d array is containing only 1's and 0's 
@@ -132,7 +132,7 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
             int nextRow = row + dir[0];
             int nextColumn = column + dir[1];
             
-            if(nextRow >= 0 && nextRow < image.length && nextColumn >= 0 && nextColumn < image[0].length && image[nextRow][nextColumn] == 1 && !visited[nextRow][nextColumnn]){
+            if(nextRow >= 0 && nextRow < image.length && nextColumn >= 0 && nextColumn < image[0].length && image[nextRow][nextColumn] == 1 && !visited[nextRow][nextColumn]){
                 visited[nextRow][nextColumn] = true;
                 queue.addLast(new Coordinate(nextColumn, nextRow));
             }
