@@ -104,13 +104,13 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
             {0, 1} //Right
         };
         
-        if (startRow < 0 || startRow >= image.length || startCol < 0 || startCol >= image[0].length){
-            return new Group();
-        }
+        // if (startRow < 0 || startRow >= image.length || startCol < 0 || startCol >= image[0].length){
+        //     return new Group();
+        // }
 
-        if (image[startRow][startCol] == 0 || visited[startRow][startCol] == true){
-            return new Group();
-        }
+        // if (image[startRow][startCol] == 0 || visited[startRow][startCol] == true){
+        //     return new Group();
+        // }
 
         visited[startRow][startCol] = true;
 
