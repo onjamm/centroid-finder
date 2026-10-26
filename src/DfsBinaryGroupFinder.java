@@ -35,6 +35,7 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
     @Override
     public List<Group> findConnectedGroups(int[][] image) {
         //get image's boundaries
+        isValidImage(image);
         int rows = image.length;
         int columns = image[0].length;
         //track visited positions with boolean array
@@ -89,7 +90,7 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
             }
         }
     }
-    
+
     //private method for dfs search to return the total number of pixels in one group
     private static Group findGroupDfs(int[][] image, boolean[][] visited, int startRow, int startCol){
         int rows = image.length;
