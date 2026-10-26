@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Deque;
 import java.util.ArrayDeque;
+import java.util.Collections;
 
 public class DfsBinaryGroupFinder implements BinaryGroupFinder {
    /**
@@ -58,6 +59,7 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
 
         //then we need to sort the groups 
 
+        Collections.sort(groups, Collections.reverseOrder());
         return groups;
     }
     // first helper method we need to validate image 
