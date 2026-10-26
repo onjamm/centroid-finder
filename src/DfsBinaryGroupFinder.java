@@ -119,18 +119,28 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
         queue.addLast(new Coordinate(startCol, startRow));
 
         //add target cases
+    while(!queue.isEmpty()) {
+        Coordinate current =  queue.removeFirst();
+        int row = current.y();
+        int column = current.x();
+
+        size++;
+        sumX += column;
+        sumY += row;
 
         for (int[] dir : directions) {
-
+            int nextRow = row + dir[0];
+            int nextColumn = column + dir[1];
+            
+            if(nextRow >= 0 && nextRow < image.length && nextColumn >= 0 && nextColumn < image[0].length && image[nextRow][nextColumn] == 1 && !visited[nextRow][nextColumnn]){
+                visited[nextRow][nextColumn] = true;
+                queue.addLast(new Coordinate(nextColumn, nextRow));
+            }
         }
-
-        
-
-
-
-        
-
-
-
+    }
+    Coordinate centroid = new Coordinate(
+        (int)(sumX/size) , (int)(sumY/size)
+    );
+    return new Group(size, centroid);
     }
 }
