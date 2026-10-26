@@ -33,9 +33,14 @@ public class EuclideanColorDistance implements ColorDistanceFinder {
         int g2 = color2[1];
         int b2 = color2[2];
 
+        double deltaR = r2 - r1;
+        double deltaG = g2 - g1;
+        double deltaB = b2 - b1;
+
         //Distance formula: sqrt((r1 - r2)^2 + (g1 - g2)^2 + (b1 - b2)^2)
+        double euclideanColorDistance = Math.sqrt((deltaR * deltaR) + (deltaG * deltaG) + (deltaB * deltaB));
         
-        return 0;
+        return euclideanColorDistance;
     }
 
     private int[] hexToRgb(int color) {
