@@ -66,30 +66,30 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
     // is valid if the 2d array is containing only 1's and 0's 
     // if null we throw nullPointerException error 
     // if not valid 2d array then we throw an Invalid argumaent exception error
-    public static void isValidImage(int[][] image){
-        int columns = image[0].length;
+   public static void isValidImage(int[][] image) {
+    if (image == null) {
+        throw new NullPointerException("Image is null");
+    }
+    // Check for null rows before accessing any row's length.
+    for (int[] row : image) {
+        if (row == null) throw new NullPointerException("Image rows are null");
+    }
+    if (image.length == 0) throw new IllegalArgumentException("Image cannot be empty");
+    
+    int columns = image[0].length;
 
-        if(image == null ) {
-            throw new NullPointerException("Image is null");
-        }
-        //check if each row and column is null
-        for(int[] row : image) {
-            if(row == null) throw new NullPointerException("Image rows are null");
+    if (columns == 0) throw new IllegalArgumentException("Image rows cannot be empty");
+    
 
-            if(row.length != columns) {
-                throw new IllegalArgumentException("Image must be rectangular");
+    for (int[] row : image) {
+        if (row.length != columns) throw new IllegalArgumentException("Image must be rectangular");
+
+        for (int pixel : row) {
+            if (pixel != 0 && pixel != 1) throw new IllegalArgumentException("Image must contain only 0s and 1s");
             }
-            
-            for (int pixel : row) {
-                if (pixel != 0 && pixel != 1) {
-                    throw new IllegalArgumentException("Image must contain only 0s and 1s");
-                }
-            }
-        }
-        if(image.length == 0){
-            throw new IllegalArgumentException("Image cannot be empty");
         }
     }
+    
     //private method for dfs search to return the total number of pixels in one group
     private static Group findGroupDfs(int[][] image, boolean[][] visited, int startRow, int startCol){
         int rows = image.length;
@@ -134,7 +134,7 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
             int nextRow = row + dir[0];
             int nextColumn = column + dir[1];
             
-            if(nextRow >= 0 && nextRow < image.length && nextColumn >= 0 && nextColumn < image[0].length && image[nextRow][nextColumn] == 1 && !visited[nextRow][nextColumn]){
+            if(nextRow >= 0 && nextRow < rows && nextColumn >= 0 && nextColumn < columns && image[nextRow][nextColumn] == 1 && !visited[nextRow][nextColumn]){
                 visited[nextRow][nextColumn] = true;
                 queue.addLast(new Coordinate(nextColumn, nextRow));
             }
