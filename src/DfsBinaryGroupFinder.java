@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Deque;
+import java.util.ArrayDeque;
 
 public class DfsBinaryGroupFinder implements BinaryGroupFinder {
    /**
@@ -40,10 +42,15 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
         List<Group> groups = new ArrayList<>();
 
         //do a nested for loop looping through the rows and columns, and call the dfs method
+        for(int row = 0; row<rows; row++){
+            for(int col = 0; col<columns; col++){
+                if(image[row][col] == 1 && !visited[row][col]){
+                    groups.add(findGroupDfs(image, visited, row, col));
+                }
+            }
+        }
         
         //and return the array list groups in a  sorted order 
-
-        //first helper method we need to validate image 
 
         //after validating the image we then need to find groups within the image
 
@@ -53,12 +60,12 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
 
 
     }
-    // validate image helper method using 1's and 0's as values to 
+    // first helper method we need to validate image 
     // is valid if the 2d array is containing only 1's and 0's 
     // if null we throw nullPointerException error 
     // if not valid 2d array then we throw an Invalid argumaent exception error
     public static void isValidImage(int[][] image){
-        int column = image[0].length;
+        int col = image[0].length;
 
         if(image == null ) {
             throw new NullPointerException("Image is null");
@@ -68,13 +75,24 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
             if(row == null) throw new NullPointerException("Image rows are null");
         }
         if(image.length == 0){
-            throw new IllegalArgumentException("Image rows cannot be empty");
+            throw new IllegalArgumentException("Image cannot be empty");
         }
         //another check to make sure it is a rectangular image
+        if(col == 0){
+            throw new IllegalArgumentException("image rows can't be empty");
+        }
     }
     //private method for dfs search to return the total number of pixels in one group
-    private static int findGroupDfs(int[][] image, boolean[][] visited, int rows, int columns){
-        
+    private static Group findGroupDfs(int[][] image, boolean[][] visited, int startRow, int startCol){
+        int rows = image.length;
+        int columns = image[0].length;
+
+        Deque<Coordinate> queue = new ArrayDeque<>();
+
+        queue.addLast(new Coordinate(startCol, startRow));
+
+        visited[startRow][startCol] = true;
+    
 
 
 
