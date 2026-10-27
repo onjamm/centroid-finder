@@ -77,6 +77,25 @@ public class DistanceImageBinarizer implements ImageBinarizer {
      */
     @Override
     public BufferedImage toBufferedImage(int[][] image) {
-        return null;
+
+        DfsBinaryGroupFinder.isValidImage(image);
+
+        int rows = image.length;
+        int cols = image[0].length;
+
+        BufferedImage binaryImage = new BufferedImage(cols, rows, BufferedImage.TYPE_INT_RGB);
+
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+
+                if (image[row][col] == 1) {
+                    binaryImage.setRGB(col, row, 0xFFFFFF);
+                } else {
+                    binaryImage.setRGB(col, row, 0x000000);
+                }
+            }
+        }
+
+        return binaryImage;
     }
 }
