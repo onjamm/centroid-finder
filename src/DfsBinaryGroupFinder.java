@@ -107,13 +107,6 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
             {0, 1} //Right
         };
         
-        // if (startRow < 0 || startRow >= image.length || startCol < 0 || startCol >= image[0].length){
-        //     return new Group();
-        // }
-
-        // if (image[startRow][startCol] == 0 || visited[startRow][startCol] == true){
-        //     return new Group();
-        // }
 
         visited[startRow][startCol] = true;
 
@@ -121,26 +114,26 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
 
         queue.addLast(new Coordinate(startCol, startRow));
 
-        //add target cases
-    while(!queue.isEmpty()) {
-        Coordinate current =  queue.removeFirst();
-        int row = current.y();
-        int column = current.x();
+        
+        while(!queue.isEmpty()) {
+            Coordinate current =  queue.removeFirst();
+            int row = current.y();
+            int column = current.x();
 
-        size++;
-        sumX += column;
-        sumY += row;
+            size++;
+            sumX += column;
+            sumY += row;
 
-        for (int[] dir : directions) {
-            int nextRow = row + dir[0];
-            int nextColumn = column + dir[1];
-            
-            if(nextRow >= 0 && nextRow < rows && nextColumn >= 0 && nextColumn < columns && image[nextRow][nextColumn] == 1 && !visited[nextRow][nextColumn]){
-                visited[nextRow][nextColumn] = true;
-                queue.addLast(new Coordinate(nextColumn, nextRow));
+            for (int[] dir : directions) {
+                int nextRow = row + dir[0];
+                int nextColumn = column + dir[1];
+                
+                if(nextRow >= 0 && nextRow < rows && nextColumn >= 0 && nextColumn < columns && image[nextRow][nextColumn] == 1 && !visited[nextRow][nextColumn]){
+                    visited[nextRow][nextColumn] = true;
+                    queue.addLast(new Coordinate(nextColumn, nextRow));
+                }
             }
         }
-    }
     Coordinate centroid = new Coordinate(
         (int)(sumX/size) , (int)(sumY/size)
     );
