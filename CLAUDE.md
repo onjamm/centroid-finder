@@ -2,66 +2,54 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Project Overview
+## Mission
 
-A Java image-analysis tool that binarizes an image by color proximity and finds connected pixel groups (centroids). The goal is to evolve this into a video/timelapse object-tracking system. All tracking logic stays in Java; Node.js + React will be added later for a frontend.
+Build a Java toolkit that extracts as much verifiable information as possible from an mp4 video or a still image, and reports how reliable each result is. Centroid finding by color is the starting point, not the limit. Anything that can be measured from pixels, motion, or file data is in scope when it passes the guardrails below.
 
-**Allowed stack:** Java, Maven, Node.js, React, JavaScript only. Ask before adding any ML model or library.
+**Information tiers** (each tier is a set of independent analyzers):
+- **A. Container and metadata:** codec, frame rate, resolution, timestamps, GPS, provenance credentials (C2PA).
+- **B. Classical analysis:** color, edges, blur and noise, background subtraction, optical flow, binarizing and connected groups.
+- **C. Learned perception:** detection, segmentation, tracking, depth, pose, using pretrained models.
+- **D. Hidden-signal recovery:** pulse from skin color, micro-motion, sound from vibrations in video, shadow-based scene inference. Research-grade, so always report the measured error.
+- **E. Provenance and forensics:** signed credentials, edit and compression traces.
+
+Every analyzer returns a result plus its evidence (frame, settings, confidence or error) so a run can be replayed and checked.
+
+## Stack
+
+Java is the core. Maven, Node.js, React and JavaScript are allowed for build tooling, a backend, and a frontend. JavaCV/OpenCV-compatible libraries and pretrained ML models are approved. Before adding any model, dataset or library:
+- Check its license and record the source, license and attribution (put it in `data/MANIFEST.md` for datasets).
+- Report what was added in the task summary.
 
 ## Commands
 
-There is no Maven or Gradle. All source files live flat in `src/`. The JUnit standalone runner is at `lib/junit-platform-console-standalone-6.0.3.jar`.
+Commands change as the build changes. Read `README.md` and the build files first. At the time of writing there is no Maven or Gradle; sources are flat in `src/`, and the JUnit runner is `lib/junit-platform-console-standalone-6.0.3.jar`.
 
-**Compile:**
 ```bash
+# compile
 javac -cp lib/junit-platform-console-standalone-6.0.3.jar src/*.java
-```
-
-**Run all tests:**
-```bash
+# run all tests
 java -jar lib/junit-platform-console-standalone-6.0.3.jar -cp src --scan-classpath
-```
-
-**Run a single test class:**
-```bash
-java -jar lib/junit-platform-console-standalone-6.0.3.jar -cp src --select-class=DfsBinaryGroupFinderTest
-```
-
-**Run the app end-to-end (produces `binarized.png` and `groups.csv`):**
-```bash
-javac -cp lib/junit-platform-console-standalone-6.0.3.jar src/*.java && java -cp src ImageSummaryApp sampleInput/squares.jpg FFA200 164
+# run one test class
+java -jar lib/junit-platform-console-standalone-6.0.3.jar -cp src --select-class=<TestClassName>
 ```
 
 CI requires at least 15 tests to pass on PRs targeting `main`.
 
 ## Architecture
 
-The pipeline is a straight chain of interfaces and their single implementations:
+Design rule: depend on interfaces, add new behavior as new implementations. Keep the image-to-result flow as a chain of small interfaces, each with its own tests.
 
-```
-BufferedImage
-  └─ ImageBinarizer.toBinaryArray()       → int[][] (0=black, 1=white)
-       impl: DistanceImageBinarizer       uses ColorDistanceFinder + target color + threshold
-               └─ ColorDistanceFinder.distance()
-                    impl: EuclideanColorDistance
-  └─ ImageBinarizer.toBufferedImage()     → BufferedImage (black=0x000000, white=0xFFFFFF)
+Existing modules (a snapshot; `src/` is the source of truth):
+- `ImageBinarizer` (impl `DistanceImageBinarizer`, using `ColorDistanceFinder` / `EuclideanColorDistance`): image to black/white grid.
+- `BinaryGroupFinder` (impl `DfsBinaryGroupFinder`): grid to sorted list of `Group`.
+- `ImageGroupFinder` (impl `BinarizingImageGroupFinder`): composes the two above.
+- `ImageSummaryApp`: command-line entry point.
 
-int[][]
-  └─ BinaryGroupFinder.findConnectedGroups()  → List<Group> (sorted descending)
-       impl: DfsBinaryGroupFinder             iterative DFS / BFS via ArrayDeque
-
-BufferedImage
-  └─ ImageGroupFinder.findConnectedGroups()   → List<Group>
-       impl: BinarizingImageGroupFinder       composes ImageBinarizer + BinaryGroupFinder
-
-ImageSummaryApp (main)  wires everything together, writes binarized.png + groups.csv
-```
-
-**Data types:**
-- Colors are 24-bit `0xRRGGBB` ints (no alpha). `BufferedImage.getRGB()` returns 32-bit `AARRGGBB`; strip alpha with `& 0x00FFFFFF` before passing to `ColorDistanceFinder`.
-- Coordinate system: `(row, col)` maps to `(x=col, y=row)`. Top-left is `(x=0, y=0)`; y increases downward.
-- `Group` is a record `(int size, Coordinate centroid)`. Sorted descending by size, then x, then y.
-- `Coordinate` is a record `(int x, int y)`.
+Conventions that existing code relies on:
+- Colors are 24-bit `0xRRGGBB` ints. `BufferedImage.getRGB()` is `AARRGGBB`, so strip alpha with `& 0x00FFFFFF`.
+- `(row, col)` maps to `(x=col, y=row)`; the origin is top-left and y grows downward.
+- `Group` is a record `(int size, Coordinate centroid)`, sorted by size, then x, then y. `Coordinate` is a record `(int x, int y)`.
 
 ## Hard Rules
 
@@ -69,24 +57,21 @@ ImageSummaryApp (main)  wires everything together, writes binarized.png + groups
 2. **Comment all additions.** Every new method, class, and non-obvious block gets a one- or two-line comment explaining *why*, not just *what*.
 3. **Write for two junior developers.** Clear names, small functions, no clever tricks.
 4. **Follow existing style.** Match indentation, naming, and file layout already in the repo.
+5. **Measure, don't claim.** Every analyzer states how it is measured (for example IoU, error in BPM, SNR) and is tested on synthetic or open data with known answers.
+
+## Privacy and Consent
+
+Pulse, occupancy, face matching and sound recovery are sensitive. Use only footage that is your own, consented, or openly licensed. Process locally, store no biometric data, and make no medical, identity or surveillance claims. Output that is uncertain must say so.
 
 ## AI Commit Rules
 
-AI may only be used to help write **test files**. Every commit that uses AI must:
-- Start with the message `"AI Used"`
-- Only create or alter test files
-
-Never mix AI-assisted and human-written code in the same commit.
+AI may be used for any file on `video-agentic-approach` and its sub-branches. Every commit that uses AI must start with the message `"AI Used"`. Never mix AI-assisted and human-written code in the same commit.
 
 ## Git Rules
 
-- Never work directly on `main`. Use a short-lived feature branch per task.
-- Pull/rebase from `main` before starting and before every push.
+- Never work directly on `main`.
+- Work only on `video-agentic-approach` and sub-branches of it. Name sub-branches with a hyphen (for example `video-agentic-approach-footage-corpus`), because git cannot create `video-agentic-approach/<name>` while a branch called `video-agentic-approach` exists. Never branch from, switch to, or push to any other branch.
+- Pull/rebase from `video-agentic-approach` before starting and before every push.
 - Keep changes small and touch as few files as possible.
 - Never force-push, rewrite shared history, or discard a teammate's work.
 - Do not merge anything yourself; hand the branch to the user to open a PR.
-
-## Branch Restriction
-
-- Stay on the `video-agentic-approach` branch. Do not switch to, commit to, or push to any other branch (including `main`).
-- Create any new work branches only as sub-branches off `video-agentic-approach` (e.g. `video-agentic-approach/<task-name>`), never off any other branch.

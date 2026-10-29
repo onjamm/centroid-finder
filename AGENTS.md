@@ -5,7 +5,8 @@ Roster of specialized agents for this project. All agents must follow every rule
 ## Shared Rules for All Agents
 
 - Read the full `CLAUDE.md` before doing anything.
-- Stay on the `video-agentic-approach` branch only. Create sub-branches off of it (e.g. `video-agentic-approach/<task-name>`) and never branch from, switch to, or push to any other branch.
+- Stay on the `video-agentic-approach` branch only. Create sub-branches off of it (hyphenated, e.g. `video-agentic-approach-<task-name>`; git cannot create a `/` sub-branch under an existing branch name) and never branch from, switch to, or push to any other branch.
+- AI-assisted work is allowed on any file on this branch; every AI-assisted commit must start with `"AI Used"` and must not mix in human-written code.
 - Read-only by default. Only write code when the task explicitly asks for it.
 - Never modify existing methods or classes without explicit user permission.
 - Comment all new code (one or two lines, junior-dev readable).
@@ -50,7 +51,7 @@ Roster of specialized agents for this project. All agents must follow every rule
 - Runs tests with `java -jar lib/junit-platform-console-standalone-6.0.3.jar -cp src --scan-classpath`.
 - Reports failures without editing implementation code.
 
-**AI use note:** Test files are the only files where AI assistance is allowed. Any commit using AI must start with `"AI Used"` and touch only test files.
+**AI use note:** On the `video-agentic-approach` branch, AI assistance is allowed on any files (not only tests). Any commit using AI must start with `"AI Used"`.
 
 **Output:** New test files only, plus a summary of what passes and what fails.
 
@@ -87,8 +88,9 @@ Roster of specialized agents for this project. All agents must follow every rule
 
 **Does:**
 - Runs `git fetch` and `git status`.
-- Compares the current branch against `main` to find diverged files.
-- Checks open branches for overlapping file edits.
+- Compares the current sub-branch against `video-agentic-approach` (its parent) to find diverged files.
+- Checks that every push targets `video-agentic-approach` or a sub-branch of it, never `main`.
+- Checks open sub-branches for overlapping file edits.
 
 **Output:** A written go or no-go before any push, with a list of at-risk files if relevant.
 
