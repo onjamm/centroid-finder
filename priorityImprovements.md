@@ -2,7 +2,7 @@
 
 Scoped to `onjamm/centroid-finder`. This file only lists improvements for this repo. The shared Google doc [priorityImprovements](https://docs.google.com/document/d/1u7U2ftQbZdAJyk1OF5iQ6v1unYbatToOxnap652U4Tk/edit) covers both repos together, including the concerns they share.
 
-**Status: draft for review.** These are AI-ranked proposals pulled from `humanImprovements.md` and `robotImprovements.md`. The assignment says the two of us decide the final top two per category, so edit freely. Once it's settled, this becomes the basis for the new `TASKS.md`.
+**Status: Wave 5 set chosen.** The rest are AI-ranked proposals pulled from `humanImprovements.md` and `robotImprovements.md`. The assignment says the two of us decide the final top two per category, so edit freely. Once it's settled, this becomes the basis for the new `TASKS.md`.
 
 ## What the assignment asks for
 
@@ -11,14 +11,27 @@ Scoped to `onjamm/centroid-finder`. This file only lists improvements for this r
 
 ## Lanes (who owns which files in this repo)
 
-- **sabinMas:** `processor/**` (all Java code, tests, `pom.xml`, `sampleInput/`), the root `.gitignore`, the root planning docs and `docs/`
-- **onjamm:** `server/**` (routes, lib, tests, `app.js`, `index.js`), `.github/workflows/**`, `README.md`
+- **sabinMas:** `processor/**` (all Java code, tests, `pom.xml`, `sampleInput/`) and the root `.gitignore`
+- **onjamm:** `server/**` (routes, lib, tests, `app.js`, `index.js`), `.github/workflows/**`, `README.md` and `docs/`
 
 Lanes follow the split that already worked in the original `TASKS.md`, so the two agents almost never edit the same file.
 
-## Recommended starter set
+## Chosen for Wave 5 (confirmed)
 
-Across both repos, these 8 branches meet the Wave 5 minimum (at least 6, every required category covered) and give each partner 4 branches with no file overlap. The ones in this repo:
+We picked these 8 branches across both repos: 4 for sabinMas and 4 for onjamm. Together they cover every required category and clear the minimum of 6. The exact steps, file ownership and merge order for this repo are in `TASKS.md`. Everything else in this file stays as backlog.
+
+| ID | Category | Owner | Reviewer | Branch | Repo |
+|---|---|---|---|---|---|
+| F-R1 | Refactoring code | sabinMas | onjamm | `refactoring/remove-scaffold-dead-code` | frontend |
+| F-T1 | Adding tests | sabinMas | onjamm | `tests/recent-jobs-and-api-client` | frontend |
+| B-T2 | Adding tests | sabinMas | onjamm | `tests/restore-video-fixture` | **this repo** |
+| B-E1 | Improving error handling | sabinMas | onjamm | `error-handling/exit-codes-and-exceptions` | **this repo** |
+| B-R3 | Refactoring code | onjamm | sabinMas | `refactoring/extract-job-runner` | **this repo** |
+| F-E1 | Improving error handling | onjamm | sabinMas | `error-handling/video-list-retry` | frontend |
+| B-T1 | Adding tests | onjamm | sabinMas | `tests/fix-ci-workflow` | **this repo** |
+| B-D2 | Writing documentation | onjamm | sabinMas | `docs/readme-and-server-jsdoc` | **this repo** |
+
+The ones in this repo:
 
 - **B-T2** (Adding tests, sabinMas): Restore a test video and add an end-to-end JAR test (`tests/restore-video-fixture`)
 - **B-E1** (Improving error handling, sabinMas): Non-zero exit codes and specific exception types (`error-handling/exit-codes-and-exceptions`)
