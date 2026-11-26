@@ -52,21 +52,12 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
             }
         }
         
-        //and return the array list groups in a  sorted order 
-
-        //after validating the image we then need to find groups within the image
-
-        //when finding groups we find the average to find the centroid x sum divided by x count and same for y 
-
-        //then we need to sort the groups 
-
+        //sort so the largest group comes first
         Collections.sort(groups, Collections.reverseOrder());
         return groups;
     }
-    // first helper method we need to validate image 
-    // is valid if the 2d array is containing only 1's and 0's 
-    // if null we throw nullPointerException error 
-    // if not valid 2d array then we throw an Invalid argumaent exception error
+    // Validates the image: it must be non-null and contain only 0s and 1s.
+    // Throws NullPointerException for null and IllegalArgumentException otherwise.
    public static void isValidImage(int[][] image) {
     if (image == null) {
         throw new NullPointerException("Image is null");
