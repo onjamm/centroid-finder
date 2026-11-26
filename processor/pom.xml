@@ -38,15 +38,6 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.5.3</version>
       </plugin>
-      <!-- Exec -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>3.1.0</version>
-        <configuration>
-          <mainClass>Experiment</mainClass>
-        </configuration>
-      </plugin>
       <!-- Assembly: bundles VideoSummaryApp and its dependencies into videoprocessor.jar -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
